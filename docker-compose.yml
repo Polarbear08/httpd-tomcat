@@ -1,0 +1,23 @@
+version: '3'
+services:
+  revproxy:
+    build: httpd/
+    image: httpd:2.4-ajp
+    container_name: httpd-reverse-proxy
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - httpd-tomcat
+
+  tomcat:
+    build: tomcat/
+    image: tomcat:9-ajp
+    container_name: tomcat
+    restart: always
+    networks:
+      - httpd-tomcat
+
+networks:
+  httpd-tomcat:
+    driver: bridge
